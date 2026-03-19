@@ -8,10 +8,12 @@ import { useDashboard } from "@/lib/store";
 
 export default function SessionClock() {
   const { soundEnabled } = useDashboard();
+  const [mounted, setMounted] = useState(false);
   const [time, setTime] = useState(getEATTime());
   const [prevKZ, setPrevKZ] = useState<string | null>(null);
 
   useEffect(() => {
+    setMounted(true);
     const id = setInterval(() => {
       const t = getEATTime();
       setTime(t);
@@ -21,6 +23,8 @@ export default function SessionClock() {
     }, 1000);
     return () => clearInterval(id);
   }, [prevKZ, soundEnabled]);
+
+  if (!mounted) return null;
 
   function playBeep() {
     try {
