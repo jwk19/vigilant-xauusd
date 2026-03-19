@@ -6,6 +6,7 @@ import NewsFeed from "@/components/news/NewsFeed";
 import BiasPanel from "@/components/bias/BiasPanel";
 import SoundToggle from "@/components/SoundToggle";
 import TradeJournal from "@/components/journal/TradeJournal";
+import GoldTicker from "../components/ticker/GoldTicker";
 
 type Tab = "dashboard" | "journal";
 
@@ -14,8 +15,7 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen px-4 py-6 max-w-7xl mx-auto">
-      {/* Header */}
-      <header className="mb-6 flex items-end justify-between">
+      <header className="mb-4 flex items-end justify-between">
         <div>
           <p className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-[.3em] mb-1">
             XAU / USD
@@ -30,7 +30,8 @@ export default function DashboardPage() {
         <SoundToggle />
       </header>
 
-      {/* Tab nav */}
+      <GoldTicker />
+
       <div className="flex gap-2 mb-6">
         {([
           { key: "dashboard", label: "Dashboard" },
@@ -51,7 +52,6 @@ export default function DashboardPage() {
         ))}
       </div>
 
-      {/* Dashboard tab */}
       {tab === "dashboard" && (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           <div className="xl:col-span-1"><SessionClock /></div>
@@ -63,12 +63,11 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* Journal tab */}
       {tab === "journal" && <TradeJournal />}
 
       <footer className="mt-8 text-center">
         <p className="text-[10px] font-mono text-[var(--text-muted)]">
-          Gold Trader Dashboard · Built for EAT · Data: Forex Factory
+          Gold Trader Dashboard · Built for EAT · Data: Forex Factory + gold-api.com
         </p>
       </footer>
     </div>
