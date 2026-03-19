@@ -9,9 +9,15 @@ export interface Session {
 }
 
 export const SESSIONS: Session[] = [
+<<<<<<< HEAD
   { name: "Sydney",   openHour: 0,  closeHour: 9,  color: "#34d399", description: "Low volume, thin liquidity" },
   { name: "Tokyo",    openHour: 2,  closeHour: 11, color: "#a78bfa", description: "Mild XAU movement, JPY pairs active" },
   { name: "London",   openHour: 10, closeHour: 19, color: "#3b82f6", description: "High volatility begins — prime XAU session" },
+=======
+  { name: "Sydney", openHour: 0, closeHour: 9, color: "#34d399", description: "Low volume, thin liquidity" },
+  { name: "Tokyo", openHour: 2, closeHour: 11, color: "#a78bfa", description: "Mild XAU movement, JPY pairs active" },
+  { name: "London", openHour: 10, closeHour: 19, color: "#3b82f6", description: "High volatility begins — prime XAU session" },
+>>>>>>> 03ab983 (build fix confirmed)
   { name: "New York", openHour: 15, closeHour: 24, color: "#f59e0b", description: "Peak volume, major moves happen here" },
 ];
 
@@ -26,16 +32,28 @@ export interface KillZone {
 }
 
 export const KILL_ZONES: KillZone[] = [
+<<<<<<< HEAD
   { name: "Asian Killzone",       openHour: 2,  openMin: 0, closeHour: 5,  closeMin: 0, type: "asian",  tip: "Range formation — liquidity grabs above/below Asian highs" },
   { name: "London Open Killzone", openHour: 10, openMin: 0, closeHour: 12, closeMin: 0, type: "london", tip: "Watch for manipulation — fake moves before true direction" },
   { name: "NY Open Killzone",     openHour: 15, openMin: 0, closeHour: 17, closeMin: 0, type: "ny",     tip: "Strongest trend continuation or reversal setups" },
   { name: "London/NY Overlap",    openHour: 15, openMin: 0, closeHour: 19, closeMin: 0, type: "london", tip: "Highest liquidity window of the day — premium entries" },
+=======
+  { name: "Asian Killzone", openHour: 2, openMin: 0, closeHour: 5, closeMin: 0, type: "asian", tip: "Range formation — liquidity grabs above/below Asian highs" },
+  { name: "London Open Killzone", openHour: 10, openMin: 0, closeHour: 12, closeMin: 0, type: "london", tip: "Watch for manipulation — fake moves before true direction" },
+  { name: "NY Open Killzone", openHour: 15, openMin: 0, closeHour: 17, closeMin: 0, type: "ny", tip: "Strongest trend continuation or reversal setups" },
+  { name: "London/NY Overlap", openHour: 15, openMin: 0, closeHour: 19, closeMin: 0, type: "london", tip: "Highest liquidity window of the day — premium entries" },
+>>>>>>> 03ab983 (build fix confirmed)
 ];
 
 export function getEATTime() {
   const now = new Date();
   const eat = new Date(now.toLocaleString("en-US", { timeZone: "Africa/Nairobi" }));
-  return { hour: eat.getHours(), minute: eat.getMinutes(), second: eat.getSeconds(), date: eat };
+  return {
+    hour: eat.getHours(),
+    minute: eat.getMinutes(),
+    second: eat.getSeconds(),
+    date: eat,
+  };
 }
 
 export function isSessionActive(s: Session, hour: number): boolean {
@@ -56,7 +74,11 @@ export function minutesUntilNext(s: Session, hour: number, minute: number): numb
 export function formatCountdown(m: number): string {
   const h = Math.floor(m / 60);
   const mn = m % 60;
+<<<<<<< HEAD
   return h === 0 ? mn + "m" : h + "h " + mn + "m";
+=======
+  return h === 0 ? `${mn}m` : `${h}h ${mn}m`;
+>>>>>>> 03ab983 (build fix confirmed)
 }
 
 export const KES_RATE_FALLBACK = 129.5;

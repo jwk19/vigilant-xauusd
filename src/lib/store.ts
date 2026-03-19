@@ -6,9 +6,22 @@ type Currency = "USD" | "KES";
 type Bias = "bullish" | "bearish" | "neutral" | null;
 
 interface DashboardState {
+<<<<<<< HEAD
   currency: Currency; kesRate: number; equity: number; riskPercent: number;
   entryPrice: number; stopLoss: number; takeProfit: number;
   bias: Bias; biasNote: string; soundEnabled: boolean;
+=======
+  currency: Currency;
+  kesRate: number;
+  equity: number;
+  riskPercent: number;
+  entryPrice: number;
+  stopLoss: number;
+  takeProfit: number;
+  bias: Bias;
+  biasNote: string;
+  soundEnabled: boolean;
+>>>>>>> 03ab983 (build fix confirmed)
   setCurrency: (c: Currency) => void;
   setKesRate: (r: number) => void;
   setEquity: (e: number) => void;
@@ -24,8 +37,21 @@ interface DashboardState {
 export const useDashboard = create<DashboardState>()(
   persist(
     (set) => ({
+<<<<<<< HEAD
       currency: "USD", kesRate: 129.5, equity: 500, riskPercent: 1,
       entryPrice: 0, stopLoss: 0, takeProfit: 0, bias: null, biasNote: "", soundEnabled: true,
+=======
+      currency: "USD",
+      kesRate: 129.5,
+      equity: 500,
+      riskPercent: 1,
+      entryPrice: 0,
+      stopLoss: 0,
+      takeProfit: 0,
+      bias: null,
+      biasNote: "",
+      soundEnabled: true,
+>>>>>>> 03ab983 (build fix confirmed)
       setCurrency: (c) => set({ currency: c }),
       setKesRate: (r) => set({ kesRate: r }),
       setEquity: (e) => set({ equity: e }),
@@ -39,4 +65,8 @@ export const useDashboard = create<DashboardState>()(
     }),
     { name: "gold-dashboard-store" }
   )
+<<<<<<< HEAD
 );
+=======
+);
+>>>>>>> 03ab983 (build fix confirmed)
