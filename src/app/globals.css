@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --gold-primary:#d4a017;--gold-bright:#f2d97a;--gold-dim:#7a5506;
+  --bg-deep:#0a0e1a;--bg-panel:#0f1424;--bg-card:#141929;--bg-border:#1e2740;
+  --text-primary:#e8dfc0;--text-muted:#6b7a99;
+  --green-trade:#00c896;--red-trade:#ff4d6d;
+  --session-london:#3b82f6;--session-ny:#f59e0b;
+  --session-tokyo:#a78bfa;--session-sydney:#34d399;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background-color:var(--bg-deep);color:var(--text-primary);font-family:'DM Sans',sans-serif;min-height:100vh;
+  background-image:radial-gradient(ellipse at 20% 50%,rgba(212,160,23,0.04) 0%,transparent 60%),
+  radial-gradient(ellipse at 80% 20%,rgba(59,130,246,0.04) 0%,transparent 50%);}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg-deep)}
+::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:2px}
+.panel{background:var(--bg-panel);border:1px solid var(--bg-border);border-radius:12px;padding:1.25rem}
+.gold-text{color:var(--gold-primary);text-shadow:0 0 20px rgba(212,160,23,0.4)}
+.session-badge{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:20px;
+  font-size:.7rem;font-family:'JetBrains Mono',monospace;font-weight:500;letter-spacing:.05em;text-transform:uppercase}
+.pulse-dot{width:8px;height:8px;border-radius:50%;animation:pulse-ring 1.5s ease-out infinite}
+@keyframes pulse-ring{0%{box-shadow:0 0 0 0 currentColor;opacity:1}70%{box-shadow:0 0 0 6px transparent;opacity:.7}100%{box-shadow:0 0 0 0 transparent;opacity:1}}
+.killzone-bar{background:linear-gradient(90deg,rgba(212,160,23,0.15),transparent);border-left:3px solid var(--gold-primary);
+  padding:8px 14px;border-radius:0 8px 8px 0;animation:flicker 2s linear infinite}
+@keyframes flicker{0%,100%{opacity:1}50%{opacity:.8}}
+.trade-input{background:var(--bg-deep);border:1px solid var(--bg-border);border-radius:8px;
+  color:var(--text-primary);font-family:'JetBrains Mono',monospace;font-size:.9rem;padding:8px 12px;width:100%;transition:border-color .2s}
+.trade-input:focus{outline:none;border-color:var(--gold-primary);box-shadow:0 0 0 2px rgba(212,160,23,0.1)}
+.gold-divider{height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);margin:1rem 0}
