@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 interface GoldPrice {
     price: number | null;
@@ -13,12 +13,26 @@ export default function GoldTicker() {
     const [data, setData] = useState<GoldPrice | null>(null);
     const [loading, setLoading] = useState(true);
     const [lastUpdate, setLastUpdate] = useState<string>("");
+    const [flash, setFlash] = useState<"up" | "down" | null>(null);
+    const lastPriceRef = useRef<number | null>(null);
 
     async function fetchPrice() {
         try {
             const res = await fetch("/api/gold-price");
             const json: GoldPrice = await res.json();
-            setData(json);
+            
+            if (json.price !== lastPriceRef.current) {
+                if (lastPriceRef.current != null && json.price != null) {
+                    const diff = json.price - lastPriceRef.current;
+                    if (Math.abs(diff) > 0.01) {
+                        setFlash(diff > 0 ? "up" : "down");
+                        setTimeout(() => setFlash(null), 2000);
+                    }
+                }
+                lastPriceRef.current = json.price;
+                setData(json);
+            }
+
             setLastUpdate(
                 new Date().toLocaleTimeString("en-KE", {
                     hour: "2-digit", minute: "2-digit", second: "2-digit",
@@ -34,7 +48,7 @@ export default function GoldTicker() {
 
     useEffect(() => {
         fetchPrice();
-        const id = setInterval(fetchPrice, 60000); // refresh every 60s
+        const id = setInterval(fetchPrice, 15000); // refresh every 15s for better responsiveness
         return () => clearInterval(id);
     }, []);
 
@@ -46,10 +60,23 @@ export default function GoldTicker() {
 
     return (
         <div
-            className="flex items-center justify-between px-4 py-2.5 rounded-xl mb-6"
+            className="flex items-center justify-between px-4 py-2.5 rounded-xl mb-6 transition-all duration-700"
             style={{
-                background: "var(--bg-panel)",
-                border: "1px solid var(--bg-border)",
+                background: flash === "up" 
+                    ? "rgba(0, 200, 150, 0.15)" 
+                    : flash === "down" 
+                    ? "rgba(255, 77, 109, 0.15)" 
+                    : "var(--bg-panel)",
+                border: flash === "up"
+                    ? "1px solid rgba(0, 200, 150, 0.4)"
+                    : flash === "down"
+                    ? "1px solid rgba(255, 77, 109, 0.4)"
+                    : "1px solid var(--bg-border)",
+                boxShadow: flash === "up"
+                    ? "0 0 20px rgba(0, 200, 150, 0.1)"
+                    : flash === "down"
+                    ? "0 0 20px rgba(255, 77, 109, 0.1)"
+                    : "none",
             }}
         >
             {/* Left: label */}
@@ -73,8 +100,12 @@ export default function GoldTicker() {
             ) : data?.price ? (
                 <div className="flex items-baseline gap-3">
                     <span
-                        className="text-xl font-mono font-bold"
-                        style={{ color: "var(--gold-primary)", textShadow: "0 0 20px rgba(212,160,23,0.3)" }}
+                        className="text-xl font-mono font-bold transition-all duration-500"
+                        style={{ 
+                            color: "var(--gold-primary)", 
+                            textShadow: "0 0 20px rgba(212,160,23,0.3)",
+                            transform: flash ? "scale(1.02)" : "scale(1)",
+                        }}
                     >
                         ${data.price.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </span>
@@ -100,7 +131,7 @@ export default function GoldTicker() {
                     Updated {lastUpdate || "—"}
                 </p>
                 <p className="text-[9px] font-mono text-[var(--text-muted)] opacity-60">
-                    Refreshes every 60s
+                    Refreshes every 15s
                 </p>
             </div>
         </div>
