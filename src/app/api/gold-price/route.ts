@@ -4,8 +4,8 @@ export const revalidate = 60; // cache for 60 seconds
 
 export async function GET() {
     try {
-        // gold-api.com — free, no key required
-        const res = await fetch("https://gold-api.com/price/XAU", {
+        // api.gold-api.com — free, no key required
+        const res = await fetch("https://api.gold-api.com/price/XAU", {
             headers: { "Accept": "application/json" },
             next: { revalidate: 60 },
         });
