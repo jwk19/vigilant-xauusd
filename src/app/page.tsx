@@ -14,7 +14,7 @@ export default function DashboardPage() {
   const [tab, setTab] = useState<Tab>("dashboard");
 
   return (
-    <div className="min-h-screen px-4 py-6 max-w-7xl mx-auto">
+    <div className="flex-1 w-full px-4 py-6 max-w-7xl mx-auto">
       <header className="mb-4 flex items-end justify-between">
         <div>
           <p className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-[.3em] mb-1">
