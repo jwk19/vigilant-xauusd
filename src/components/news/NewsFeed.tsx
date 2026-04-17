@@ -34,6 +34,21 @@ function toEAT(date: string, time: string): string {
   }
 }
 
+function isWithin48Hours(e: NewsEvent): boolean {
+  try {
+    if (!e.date || !e.time || e.time === "Tentative" || e.time === "All Day") return true;
+    const dt = new Date(e.date + "T" + e.time);
+    const diffMs = Date.now() - dt.getTime();
+    // Keep events that are upcoming OR happened within the last 48 hours
+    return diffMs <= 48 * 60 * 60 * 1000;
+  } catch {
+    return true;
+  }
+}
+
+const impactColor = (i: string) =>
+  i === "High" ? "var(--red-trade)" : i === "Medium" ? "var(--gold-primary)" : "var(--text-muted)";
+
 function isUpcoming(e: NewsEvent): boolean {
   try {
     const dt = new Date(e.date + "T" + e.time);
@@ -44,9 +59,6 @@ function isUpcoming(e: NewsEvent): boolean {
   }
 }
 
-const impactColor = (i: string) =>
-  i === "High" ? "var(--red-trade)" : i === "Medium" ? "var(--gold-primary)" : "var(--text-muted)";
-
 export default function NewsFeed() {
   const [events, setEvents] = useState<NewsEvent[]>([]);
   const [loading, setLoading] = useState(true);
@@ -55,7 +67,7 @@ export default function NewsFeed() {
   useEffect(() => {
     fetch("https://nfs.faireconomy.media/ff_calendar_thisweek.json")
       .then(r => r.json())
-      .then((d: NewsEvent[]) => setEvents(d.filter(isGoldRelevant)))
+      .then((d: NewsEvent[]) => setEvents(d.filter(e => isGoldRelevant(e) && isWithin48Hours(e))))
       .catch(() => setError("Could not load news. Check connection."))
       .finally(() => setLoading(false));
   }, []);
@@ -66,7 +78,7 @@ export default function NewsFeed() {
         <h2 className="font-display text-sm tracking-widest uppercase text-[var(--gold-primary)]">
           Gold-Relevant News
         </h2>
-        <span className="text-[10px] font-mono text-[var(--text-muted)] uppercase">This Week · EAT</span>
+        <span className="text-[10px] font-mono text-[var(--text-muted)] uppercase">Last 48h · EAT</span>
       </div>
 
       {loading && (
@@ -80,7 +92,7 @@ export default function NewsFeed() {
       {error && <p className="text-xs font-mono text-[var(--red-trade)]">{error}</p>}
 
       {!loading && !error && events.length === 0 && (
-        <p className="text-xs font-mono text-[var(--text-muted)]">No high-impact gold events this week.</p>
+        <p className="text-xs font-mono text-[var(--text-muted)]">No high-impact gold events in the last 48 hours.</p>
       )}
       <div className="space-y-2 max-h-[420px] overflow-y-auto pr-1">
         {events.map((ev, i) => {
@@ -132,7 +144,7 @@ export default function NewsFeed() {
         })}
       </div>
       <p className="text-[10px] font-mono text-[var(--text-muted)]">
-        Source: Forex Factory · Updates every 30min · Filtered for USD/Gold impact
+        Source: Forex Factory · Updates every 30min · Last 48 hours only
       </p>
     </div>
   );

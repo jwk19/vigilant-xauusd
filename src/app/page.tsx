@@ -2,8 +2,7 @@
 import { useState } from "react";
 import SessionClock from "@/components/clock/SessionClock";
 import RiskCalculator from "@/components/calculator/RiskCalculator";
-import NewsFeed from "@/components/news/NewsFeed";
-import BiasPanel from "@/components/bias/BiasPanel";
+import DashboardNews from "@/components/news/DashboardNews";
 import SoundToggle from "@/components/SoundToggle";
 import TradeJournal from "@/components/journal/TradeJournal";
 import GoldTicker from "../components/ticker/GoldTicker";
@@ -58,9 +57,8 @@ export default function DashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           <div className="xl:col-span-1"><SessionClock /></div>
           <div className="xl:col-span-1"><RiskCalculator /></div>
-          <div className="xl:col-span-1 flex flex-col gap-4">
-            <BiasPanel />
-            <NewsFeed />
+          <div className="xl:col-span-1">
+            <DashboardNews />
           </div>
         </div>
       )}

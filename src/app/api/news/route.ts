@@ -61,11 +61,17 @@ export async function GET() {
     });
 
     const results = await Promise.all(feedPromises);
-    const allNews = results.flat().sort((a, b) => {
-      return new Date(b.pubDate!).getTime() - new Date(a.pubDate!).getTime();
-    });
+    const cutoff = Date.now() - 48 * 60 * 60 * 1000; // 48 hours ago
 
-    return NextResponse.json(allNews.slice(0, 30));
+    const allNews = results
+      .flat()
+      .filter((item) => {
+        if (!item.pubDate) return false;
+        return new Date(item.pubDate).getTime() >= cutoff;
+      })
+      .sort((a, b) => new Date(b.pubDate!).getTime() - new Date(a.pubDate!).getTime());
+
+    return NextResponse.json(allNews.slice(0, 50));
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch news" }, { status: 500 });
   }
