@@ -24,7 +24,7 @@ export default function DashboardPage() {
             Gold Trader
           </h1>
           <p className="text-xs text-[var(--text-muted)] font-mono mt-0.5">
-            Personal trading companion · Nairobi, Kenya
+            Personal trading companion · Global
           </p>
         </div>
         <SoundToggle />
@@ -69,7 +69,7 @@ export default function DashboardPage() {
 
       <footer className="mt-8 text-center">
         <p className="text-[10px] font-mono text-[var(--text-muted)]">
-          Gold Trader Dashboard · Built for EAT · Data: Forex Factory + gold-api.com
+          Gold Trader Dashboard · Sessions shown in your local timezone · Data: Forex Factory + gold-api.com
         </p>
       </footer>
     </div>

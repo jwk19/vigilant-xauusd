@@ -4,6 +4,7 @@ import { persist } from "zustand/middleware";
 
 type Currency = "USD" | "KES";
 type Bias = "bullish" | "bearish" | "neutral" | null;
+// Empty string means "auto-detect from browser"
 
 interface DashboardState {
   currency: Currency;
@@ -16,6 +17,8 @@ interface DashboardState {
   bias: Bias;
   biasNote: string;
   soundEnabled: boolean;
+  /** IANA timezone key, empty = auto-detect */
+  selectedTimezone: string;
   setCurrency: (c: Currency) => void;
   setKesRate: (r: number) => void;
   setEquity: (e: number) => void;
@@ -26,6 +29,7 @@ interface DashboardState {
   setBias: (b: Bias) => void;
   setBiasNote: (n: string) => void;
   toggleSound: () => void;
+  setSelectedTimezone: (tz: string) => void;
 }
 
 export const useDashboard = create<DashboardState>()(
@@ -41,6 +45,7 @@ export const useDashboard = create<DashboardState>()(
       bias: null,
       biasNote: "",
       soundEnabled: true,
+      selectedTimezone: "",
       setCurrency: (c) => set({ currency: c }),
       setKesRate: (r) => set({ kesRate: r }),
       setEquity: (e) => set({ equity: e }),
@@ -51,6 +56,7 @@ export const useDashboard = create<DashboardState>()(
       setBias: (b) => set({ bias: b }),
       setBiasNote: (n) => set({ biasNote: n }),
       toggleSound: () => set(s => ({ soundEnabled: !s.soundEnabled })),
+      setSelectedTimezone: (tz) => set({ selectedTimezone: tz }),
     }),
     { name: "gold-dashboard-store" }
   )
