@@ -7,8 +7,9 @@ import BiasPanel from "@/components/bias/BiasPanel";
 import SoundToggle from "@/components/SoundToggle";
 import TradeJournal from "@/components/journal/TradeJournal";
 import GoldTicker from "../components/ticker/GoldTicker";
+import NewsHub from "@/components/news/NewsHub";
 
-type Tab = "dashboard" | "journal";
+type Tab = "dashboard" | "journal" | "news";
 
 export default function DashboardPage() {
   const [tab, setTab] = useState<Tab>("dashboard");
@@ -32,9 +33,10 @@ export default function DashboardPage() {
 
       <GoldTicker />
 
-      <div className="flex gap-2 mb-6">
+      <div className="flex flex-wrap gap-2 mb-6">
         {([
           { key: "dashboard", label: "Dashboard" },
+          { key: "news", label: "News Hub" },
           { key: "journal", label: "Trade Journal" },
         ] as { key: Tab; label: string }[]).map(t => (
           <button
@@ -62,6 +64,8 @@ export default function DashboardPage() {
           </div>
         </div>
       )}
+
+      {tab === "news" && <NewsHub />}
 
       {tab === "journal" && <TradeJournal />}
 
